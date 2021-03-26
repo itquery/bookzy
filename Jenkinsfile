@@ -31,6 +31,10 @@ pipeline {
     	stage("Deploy") {
         	steps {
             	sh "echo Tomcat Deploy!"
+				    deploy container: [tomcat7(url: 'http://localhost:9000/', 
+                              credentialsId: 'tomcatPassWd')], 
+                     war: 'web-app/target/*.war',
+                     contextPath: 'bookzy'
 			}
        	}
 
