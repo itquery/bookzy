@@ -1,8 +1,5 @@
 pipeline {
 	agent any
-	tools {
-    	maven 'MVN-3.6.0'
-	}
 	stages {
     	stage("Checkout") {
         	steps {
@@ -30,11 +27,7 @@ pipeline {
     	}
     	stage("Deploy") {
         	steps {
-            	sh "echo Tomcat Deploy!"
-				    deploy container: [tomcat7(url: 'http://localhost:9000/', 
-                              credentialsId: 'tomcatPassWd')], 
-                     war: 'web-app/target/*.war',
-                     contextPath: 'bookzy'
+			deploy adapters: [tomcat8(credentialsId: 'tomcatDeployer', path: '', url: 'http://localhost:7000')], contextPath: 'bookzy', war: 'web-app/target/*.war'
 			}
        	}
 
